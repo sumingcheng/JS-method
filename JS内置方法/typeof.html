@@ -1,0 +1,36 @@
+<script>
+  function myTypeof(val) {
+    // 2+3 obj arr + num + str + boolean
+    const map = {
+      '[object Array]': 'array',
+      '[object Object]': 'object',
+      '[object Number]': 'number',
+      '[object String]': 'string',
+      '[object Boolean]': 'boolean',
+    }
+    // 获取方法
+    let toStr = Object.prototype.toString
+    // 先判断
+    let type = typeof val
+
+    // 空直接返回
+    if (val === null) {
+      return 'null'
+      //   对象再次判断
+    } else if (type === 'object') {
+      // 返回map里的对象
+      return map[toStr.call(val)]
+    } else {
+      // 如果不是对象不是null，就是typeof可以解决的
+      return type
+    }
+  }
+
+  console.log(myTypeof(1))
+  console.log(myTypeof('1'))
+  console.log(myTypeof([]))
+  console.log(myTypeof({}))
+  console.log(myTypeof(new Boolean(1)))
+  console.log(myTypeof(null))
+  console.log(myTypeof(undefined))
+</script>
