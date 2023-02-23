@@ -1,30 +1,28 @@
-<script>
-  <!--构造函数核心、构造器和参数-->
+<!-- <script>
   function myNew(constructor, ...args) {
     // 创建一个新对象，将其原型设置为构造函数的原型
 
-    const obj = Object.create(constructor.prototype)
+    const obj = Object.create(constructor.prototype);
 
-    const result = constructor.apply(obj, args)
-    console.log(result)
+    const result = constructor.apply(obj, args);
+    console.log(result);
     // 如果构造函数返回一个对象，那么直接返回该对象
     if (typeof result === 'object' && result !== null) {
-      return result
-    }
+      return result;
 
-    return obj
+    return obj;
   }
 
   function Person(name, age) {
-    this.name = name
-    this.age = age
+    this.name = name;
+    this.age = age;
   }
 
   Person.prototype.method = function () {
-    console.log(this.name)
-  }
+    console.log(this.name);
+  };
 
-  const john = myNew(Person, 'John', 30)
+  const john = myNew(Person, 'John', 30);
   john.method()
 
 </script>
@@ -32,16 +30,32 @@
   // es6
   function myNew(constructor, ...args) {
     // 1. 创建一个空对象
-    const obj = {}
+    const obj = {};
 
     // 2. 将对象的原型链指向构造函数的原型对象
-    Object.setPrototypeOf(obj, constructor.prototype)
+    Object.setPrototypeOf(obj, constructor.prototype);
 
     // 3. 将对象作为构造函数的上下文
-    const result = constructor.apply(obj, args)
+    const result = constructor.apply(obj, args);
 
     // 4. 如果构造函数返回一个对象，则返回该对象，否则返回上面创建的对象
-    return result instanceof Object ? result : obj
+    return result instanceof Object ? result : obj;
   }
 
+</script> -->
+
+<script>
+  function Person(name) {
+    this.name = name;
+  }
+
+  Function.prototype.new = function () {
+    let obj = Object.create(this.prototype);
+
+    let res = this.apply(obj, arguments);
+    return res instanceof Object ? res : obj;
+  };
+
+  let pr = Person.new('张三');
+  console.log(pr);
 </script>
