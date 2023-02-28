@@ -1,0 +1,15 @@
+<script>
+  const template = `<div>{{ name }} <span>{{ age }}</span></div>`
+  const data = { name: 'singh', age: 27 }
+
+  function myRender(template, data) {
+    let reg = /{{(.*?)}}/g
+    // replace 的回调的三个参数 匹配到的字符串 match、分组捕获的字符串 group 和匹配项在原字符串中的位置
+    return template.replace(reg, (match, group) => {
+      let key = group.trim()
+      return data[key]
+    })
+  }
+
+  console.log(myRender(template, data))
+</script>
