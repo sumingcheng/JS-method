@@ -53,6 +53,7 @@
     let obj = Object.create(this.prototype);
 
     let res = this.apply(obj, arguments);
+
     return res instanceof Object ? res : obj;
   };
 
