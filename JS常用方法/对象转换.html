@@ -1,0 +1,34 @@
+<script>
+  const obj = {
+    a: {
+      b: 'hello ',
+      c: {
+        d: 'world'
+      }
+    },
+    e: 'hello world'
+  }
+  // 转换为
+  let temp = {
+    'a.b': 'hello',
+    'a.c.d': 'world',
+    'e': 'hello world'
+  }
+
+  function flattenObject(obj, prefix = '') {
+    const result = {}
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        const newKey = prefix ? `${prefix}.${key}` : key
+        if (typeof obj[key] === 'object' && obj[key] !== null) {
+          Object.assign(result, flattenObject(obj[key], newKey))
+        } else {
+          result[newKey] = obj[key]
+        }
+      }
+    }
+    return result
+  }
+
+  console.log(flattenObject(obj))
+</script>
