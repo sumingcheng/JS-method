@@ -1,12 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>标签页</title>
 </head>
+<style>
+  .tab-content>div {
+    display: none;
+  }
+
+  .tab-content>div:first-child {
+    display: block;
+  }
+</style>
+
 <body>
-  
+  <div id="tab1">
+    <h2>Tab 1</h2>
+    <a href="#" class="tab-link" data-tab="tab2">Switch to Tab 2</a>
+  </div>
+  <div id="tab2" style="display:none;">
+    <h2>Tab 2</h2>
+    <a href="#" class="tab-link" data-tab="tab1">Switch to Tab 1</a>
+  </div>
+
+  <script>
+    // 获取所有标签页链接
+    var tabLinks = document.querySelectorAll('.tab-link');
+
+    // 监听每个链接的点击事件
+    for (var i = 0; i < tabLinks.length; i++) {
+      tabLinks[i].addEventListener('click', function (event) {
+        // 阻止默认行为
+        event.preventDefault();
+
+        // 获取目标标签页 ID
+        var targetId = this.getAttribute('data-tab');
+
+        // 隐藏当前标签页
+        var currentTab = document.querySelector('.tab-content > div:first-child');
+        currentTab.style.display = 'none';
+
+        // 显示目标标签页
+        var targetTab = document.getElementById(targetId);
+        targetTab.style.display = 'block';
+      });
+    }
+
+  </script>
 </body>
+
 </html>
