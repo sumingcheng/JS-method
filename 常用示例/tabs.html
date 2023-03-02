@@ -8,48 +8,64 @@
   <title>标签页</title>
 </head>
 <style>
-  .tab-content>div {
+  #menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  #menu li {
+    cursor: pointer;
+    margin-right: 10px;
+    padding: 5px;
+  }
+
+  #menu li.active {
+    background-color: #ccc;
+  }
+
+  #content div {
     display: none;
   }
 
-  .tab-content>div:first-child {
+  #content div.active {
     display: block;
   }
 </style>
 
 <body>
-  <div id="tab1">
-    <h2>Tab 1</h2>
-    <a href="#" class="tab-link" data-tab="tab2">Switch to Tab 2</a>
-  </div>
-  <div id="tab2" style="display:none;">
-    <h2>Tab 2</h2>
-    <a href="#" class="tab-link" data-tab="tab1">Switch to Tab 1</a>
+  <ul id="menu">
+    <li class="active">菜单1</li>
+    <li>菜单2</li>
+    <li>菜单3</li>
+  </ul>
+  <div id="content">
+    <div class="active">内容1</div>
+    <div>内容2</div>
+    <div>内容3</div>
   </div>
 
   <script>
-    // 获取所有标签页链接
-    var tabLinks = document.querySelectorAll('.tab-link');
+    const menu = document.querySelector('#menu');
+    const content = document.querySelector('#content');
 
-    // 监听每个链接的点击事件
-    for (var i = 0; i < tabLinks.length; i++) {
-      tabLinks[i].addEventListener('click', function (event) {
-        // 阻止默认行为
-        event.preventDefault();
+    // 获取所有菜单项和内容区域
+    const menuItems = menu.querySelectorAll('li');
+    const contentItems = content.querySelectorAll('div');
 
-        // 获取目标标签页 ID
-        var targetId = this.getAttribute('data-tab');
+    // 给每个菜单项添加事件监听器
+    menuItems.forEach((menuItem, index) => {
+      menuItem.addEventListener('click', () => {
+        // 切换菜单项的样式
+        menuItems.forEach(item => item.classList.remove('active'));
+        menuItem.classList.add('active');
 
-        // 隐藏当前标签页
-        var currentTab = document.querySelector('.tab-content > div:first-child');
-        currentTab.style.display = 'none';
-
-        // 显示目标标签页
-        var targetTab = document.getElementById(targetId);
-        targetTab.style.display = 'block';
+        // 切换内容区域的显示状态
+        contentItems.forEach(item => item.classList.remove('active'));
+        contentItems[index].classList.add('active');
       });
-    }
-
+    });
   </script>
 </body>
 
