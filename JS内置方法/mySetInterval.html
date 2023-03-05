@@ -1,0 +1,32 @@
+<script>
+  function mySetInterval(func, interval) {
+    let timeoutID
+    let timeoutIDs = []
+
+    function loop() {
+      func()
+      timeoutID = setTimeout(loop, interval)
+      timeoutIDs.push(timeoutID)
+    }
+
+    timeoutID = setTimeout(loop, interval)
+    timeoutIDs.push(timeoutID)
+
+    return {
+      clear() {
+        timeoutIDs.forEach(id => clearTimeout(id))
+      }
+    }
+  }
+
+  // 使用示例
+  const interval = mySetInterval(() => {
+    console.log('Hello, world!')
+  }, 1000)
+
+  // 5秒后手动销毁定时器
+  setTimeout(() => {
+    interval.clear()
+  }, 5000)
+
+</script>
