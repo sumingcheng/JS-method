@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+<input type="file" onchange="previewImage(event)">
+<img id="preview"/>
+
+<script>
+  function previewImage(event) {
+    const file = event.target.files[0]
+    if (!file || !file.type.includes('image/')) {
+      return
+    }
+
+    const reader = new FileReader()
+    reader.onload = function () {
+      const url = URL.createObjectURL(file)
+      const img = document.getElementById('preview')
+      img.src = url
+    }
+
+    reader.readAsDataURL(file)
+  }
+</script>
+
+</body>
+</html>
