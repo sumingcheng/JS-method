@@ -1,30 +1,90 @@
 <script>
-  function Parent(name) {
-    this.name = name || 'Tom';
-    this.colors = ["red", "blue", "yellow"];
+  // todo 原型链继承
+  // 本质,父实例挂在子实例prototype上
+  /**
+   * @优点
+   * 1. 父类的方法和属性可以被多个子类共享，从而减少重复代码的量。
+   * 2. 子类实例可以通过原型链访问到父类原型上的方法和属性，因此可以更加灵活地扩展和修改功能。
+   * @缺点
+   * 1. 属性和方法的继承是通过原型链实现的，因此如果父类的原型对象中的引用类型属性被一个子类实例修改后，所有子类实例的相应属性也会被修改，这可能会导致意外的结果。
+   * 2. 子类无法向父类构造函数传参，因此无法在创建子类实例时对父类的属性进行初始化。
+   * 3. 在原型链中查找属性和方法的速度相对较慢。
+   */
+  function Animal(name) {
+    this.name = name
   }
-  Parent.prototype.sayName = function () {
-    console.log(this.name);
-  };
 
-  function Child(name, age) {
-    // 继承父类属性
-    Parent.call(this, name);
-    this.age = age;
+  Animal.prototype.sayName = function () {
+    console.log(`My name is ${this.name}.`)
   }
 
-  // 继承父类方法
-  Child.prototype = new Parent();
+  function Cat(name) {
+    this.name = name
+  }
 
-  Child.prototype.sayAge = function () {
-    console.log(this.age);
-    console.log(this.name);
-  };
+  Cat.prototype = new Animal()
 
+  let cat1 = new Cat('Tom')
+  cat1.sayName() // My name is Tom.
+  console.log(cat1)
 
-  let child1 = new Child("xiaoai", 19);
-  console.log(child1);
-  child1.sayAge(); // 19
+  // todo 构造函数继承
+  // 本质,通过子类构造函数调用父类构造函数
+  /**
+   * @优点
+   * 1. 简单
+   * @缺点
+   * 1. 能力较弱：构造函数继承只能继承父类的属性和方法，而不能继承父类的原型。
+   * 2. 无法共享原型：每个实例都会创建一个新的原型对象，如果父类属性和方法存在在原型中，则在实例化时会有额外的开销。
+   * 3. 无法构建继承链：在使用构造函数继承时，无法建立完整的继承链，因此无法实现多层继承。
+   */
+  function Person(name, age) {
+    this.name = name
+    this.age = age
+  }
 
+  Person.prototype.sayHi = function () {
+    console.log('Hi, my name is ' + this.name + ', and I\'m ' + this.age + ' years old.')
+  }
 
+  function Student(name, age, id) {
+    Person.call(this, name, age)
+    this.id = id
+  }
+
+  let s = new Student('Tom', 18, '20190001')
+  console.log(s.name)  // Tom
+  console.log(s.age)   // 18
+  console.log(s.id)    // 20190001
+  s.sayHi()            // TypeError: s.sayHi is not a function
+  // todo 组合继承
+  /**
+   *
+   * @param name
+   * @constructor
+   */
+  function Animal(name) {
+    this.name = name
+  }
+
+  Animal.prototype.sayName = function () {
+    console.log('My name is ' + this.name)
+  }
+
+  function Cat(name, color) {
+    Animal.call(this, name)
+    this.color = color
+  }
+
+  Cat.prototype = new Animal()
+  Cat.prototype.constructor = Cat
+
+  Cat.prototype.sayColor = function () {
+    console.log('My color is ' + this.color)
+  }
+
+  let myCat = new Cat('Tom', 'blue')
+  myCat.sayName()  // 输出 "My name is Tom"
+  myCat.sayColor() // 输出 "My color is blue"
+  // 寄生组合式继承
 </script>
